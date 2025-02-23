@@ -1,0 +1,5 @@
+outs:
+- md5: e7d29f5c86b573475048d94c1eae7e9e
+  size: 3732728
+  hash: md5
+  path: hrmodel.pkl

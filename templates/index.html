@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attrition Predictor</title>
+    <style>
+        /* General Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Background with 3D Gradient */
+        body {
+            background: linear-gradient(135deg, #1f1c2c, #928dab);
+            text-align: center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+
+        /* Main Section */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+        }
+
+        /* 3D Glassmorphism Card */
+        .card {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            width: 400px;
+            border-radius: 15px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        h1 {
+            color: #fff;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+        }
+
+        input {
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            text-align: center;
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* 3D Button */
+        button {
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 5px 15px rgba(255, 75, 43, 0.5);
+        }
+
+        /* Result Section */
+        .result-card {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 20px;
+            border-radius: 15px;
+            width: 400px;
+            text-align: center;
+            box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+        }
+
+        .result-card:hover {
+            transform: scale(1.05);
+        }
+
+        .result-card h2 {
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .result-card p {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #fff;
+        }
+
+        .back-button {
+            background: linear-gradient(135deg, #00c6ff, #0072ff);
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .back-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 5px 15px rgba(0, 150, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <div class="navbar">
+        <div><strong>Attrition Predictor</strong></div>
+        <div>
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </div>
+    </div>
+
+    <!-- Form Section -->
+    <div id="form-section" class="container">
+        <div class="card">
+            <h1>Enter Employee Details</h1>
+            <input type="number" id="job_level" placeholder="Job Level" required>
+            <input type="number" id="monthly_income" placeholder="Monthly Income ($)" required>
+            <input type="number" id="total_working_years" placeholder="Total Working Years" required>
+            <input type="number" id="percent_salary_hike" placeholder="Percent Salary Hike" required>
+            <input type="number" id="performance_rating" placeholder="Performance Rating" required>
+            <input type="number" id="years_at_company" placeholder="Years At Company" required>
+            <input type="number" id="years_in_current_role" placeholder="Years In Current Role" required>
+            <input type="number" id="years_with_curr_manager" placeholder="Years With Curr Manager" required>
+            <button onclick="predictAttrition()">Predict</button>
+        </div>
+    </div>
+
+    <!-- Result Section (Hidden initially) -->
+    <div id="result-section" class="container" style="display: none;">
+        <div class="result-card">
+            <h2>Prediction Outcome</h2>
+            <p id="prediction-text">Loading...</p>
+            <p id="probability-text"></p>
+            <button class="back-button" onclick="goBack()">Go Back</button>
+        </div>
+    </div>
+
+    <script>
+        function predictAttrition() {
+            let jobLevel = parseInt(document.getElementById("job_level").value);
+            let probability = Math.random().toFixed(2);
+            let prediction = jobLevel > 3 
+                ? "Employee will leave the company" 
+                : "Employee will not leave the company";
+
+            document.getElementById("prediction-text").innerText = prediction;
+            document.getElementById("probability-text").innerText = "Probability for Attrition: " + probability;
+
+            document.getElementById("form-section").style.display = "none";
+            document.getElementById("result-section").style.display = "flex";
+        }
+
+        function goBack() {
+            document.querySelectorAll("input").forEach(input => input.value = "");
+            document.getElementById("result-section").style.display = "none";
+            document.getElementById("form-section").style.display = "flex";
+        }
+    </script>
+
+</body>
+</html>
